@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Tarefas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Gerenciador de Tarefas e Rotinas <br></h2>
+         <p>Arnaldo S. Lima - Analista de Perdas - Grupo Partnership 2024</p>
+        
+        <div class="filter-container">
+            <label for="filterNatureza">Filtrar por Natureza:</label>
+            <select id="filterNatureza" onchange="updateTable()">
+                <option value="todas">Todas</option>
+                <option value="tarefa">Tarefa</option>
+                <option value="rotina">Rotina</option>
+            </select>
+
+            <label for="searchDescricao">Pesquisar Descrição:</label>
+            <input type="text" id="searchDescricao" onkeyup="updateTable()" placeholder="Pesquisar...">
+        </div>
+
+        <div class="main-content">
+            <form id="taskForm">
+                <label for="natureza">Natureza:</label>
+                <select id="natureza" name="natureza">
+                    <option value="tarefa">Tarefa</option>
+                    <option value="rotina">Rotina</option>
+                </select><br><br>
+
+                <label for="descricao">Descrição:</label>
+                <input type="text" id="descricao" name="descricao"><br><br>
+
+                <label for="dataEntrega">Data de Entrega:</label>
+                <input type="date" id="dataEntrega" name="dataEntrega"><br><br>
+
+                <label for="status">Status:</label>
+                <select id="status" name="status">
+                    <option value="pendente">Pendente</option>
+                    <option value="andamento">Em Andamento</option>
+                    <option value="concluida">Concluída</option>
+                </select><br><br>
+
+                <label for="urgencia">Urgência:</label>
+                <select id="urgencia" name="urgencia">
+                    <option value="baixa">Baixa</option>
+                    <option value="media">Média</option>
+                    <option value="alta">Alta</option>
+                </select><br><br>
+
+                <button type="button" onclick="adicionarTarefa()">Adicionar Tarefa</button>
+            </form>
+
+            <div class="graphs">
+                <h3>Gráficos</h3>
+                <div class="charts">
+                    <div class="chart-container">
+                        <canvas id="barChart" class="chart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="pieChart" class="chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3>Lista de Tarefas</h3>
+        <button id="exportButton" onclick="exportarParaExcel()">Exportar para Excel</button>
+        <table id="taskTable">
+            <thead>
+                <tr>
+                    <th>Natureza</th>
+                    <th>Descrição</th>
+                    <th>Data de Criação</th>
+                    <th>Data de Entrega</th>
+                    <th>Status</th>
+                    <th>Urgência</th>
+                    <th>Dias até Vencimento</th>
+                    <th>Dias até Conclusão</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
