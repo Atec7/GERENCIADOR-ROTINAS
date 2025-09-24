@@ -1,96 +1,307 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerenciador de Tarefas</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gerenciador de Tarefas</title>
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #f4f6f9;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 5px;
+      color: #2c3e50;
+    }
+
+    p {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    .filter-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 25px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .filter-container label {
+      font-weight: bold;
+      margin-right: 5px;
+    }
+
+    .filter-container select,
+    .filter-container input {
+      padding: 6px 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .main-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+      margin-bottom: 30px;
+    }
+
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    form label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    form input, form select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    form button {
+      background: #2ecc71;
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    form button:hover {
+      background: #27ae60;
+    }
+
+    .graphs {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .graphs h3 {
+      margin-bottom: 15px;
+    }
+
+    .charts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .chart-container {
+      padding: 10px;
+    }
+
+    h3 {
+      margin: 15px 0;
+      font-size: 1.3rem;
+      color: #2c3e50;
+    }
+
+    #exportButton {
+      margin-bottom: 15px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: none;
+      background: #3498db;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    #exportButton:hover {
+      background: #2980b9;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    table thead {
+      background: #2c3e50;
+      color: #fff;
+    }
+
+    table th, table td {
+      padding: 10px 12px;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    table tbody tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .urgencia-baixa { background: #2ecc71; }
+    .urgencia-media { background: #f39c12; }
+    .urgencia-alta { background: #e74c3c; }
+
+    .status-pendente { background: #e67e22; }
+    .status-andamento { background: #3498db; }
+    .status-concluida { background: #2ecc71; }
+
+    .acoes button {
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      margin: 2px;
+      color: #fff;
+    }
+
+    .acoes .edit { background: #f39c12; }
+    .acoes .delete { background: #e74c3c; }
+    .acoes .done { background: #2ecc71; }
+
+    /* Responsividade */
+    @media (max-width: 900px) {
+      .main-content {
+        grid-template-columns: 1fr;
+      }
+
+      .charts {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Gerenciador de Tarefas e Rotinas <br></h2>
-         <p>Arnaldo S. Lima - Analista de Perdas - Grupo Partnership 2024</p>
-        
-        <div class="filter-container">
-            <label for="filterNatureza">Filtrar por Natureza:</label>
-            <select id="filterNatureza" onchange="updateTable()">
-                <option value="todas">Todas</option>
-                <option value="tarefa">Tarefa</option>
-                <option value="rotina">Rotina</option>
-            </select>
+  <div class="container">
+    <h2><i class="fa-solid fa-list-check"></i> Gerenciador de Tarefas e Rotinas</h2>
+    <p>Arnaldo S. Lima - Analista de Perdas - Grupo Partnership 2024</p>
 
-            <label for="searchDescricao">Pesquisar Descrição:</label>
-            <input type="text" id="searchDescricao" onkeyup="updateTable()" placeholder="Pesquisar...">
-        </div>
+    <div class="filter-container">
+      <label for="filterNatureza">Natureza:</label>
+      <select id="filterNatureza" onchange="updateTable()">
+        <option value="todas">Todas</option>
+        <option value="tarefa">Tarefa</option>
+        <option value="rotina">Rotina</option>
+      </select>
 
-        <div class="main-content">
-            <form id="taskForm">
-                <label for="natureza">Natureza:</label>
-                <select id="natureza" name="natureza">
-                    <option value="tarefa">Tarefa</option>
-                    <option value="rotina">Rotina</option>
-                </select><br><br>
-
-                <label for="descricao">Descrição:</label>
-                <input type="text" id="descricao" name="descricao"><br><br>
-
-                <label for="dataEntrega">Data de Entrega:</label>
-                <input type="date" id="dataEntrega" name="dataEntrega"><br><br>
-
-                <label for="status">Status:</label>
-                <select id="status" name="status">
-                    <option value="pendente">Pendente</option>
-                    <option value="andamento">Em Andamento</option>
-                    <option value="concluida">Concluída</option>
-                </select><br><br>
-
-                <label for="urgencia">Urgência:</label>
-                <select id="urgencia" name="urgencia">
-                    <option value="baixa">Baixa</option>
-                    <option value="media">Média</option>
-                    <option value="alta">Alta</option>
-                </select><br><br>
-
-                <button type="button" onclick="adicionarTarefa()">Adicionar Tarefa</button>
-            </form>
-
-            <div class="graphs">
-                <h3>Gráficos</h3>
-                <div class="charts">
-                    <div class="chart-container">
-                        <canvas id="barChart" class="chart"></canvas>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="pieChart" class="chart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <h3>Lista de Tarefas</h3>
-        <button id="exportButton" onclick="exportarParaExcel()">Exportar para Excel</button>
-        <table id="taskTable">
-            <thead>
-                <tr>
-                    <th>Natureza</th>
-                    <th>Descrição</th>
-                    <th>Data de Criação</th>
-                    <th>Data de Entrega</th>
-                    <th>Status</th>
-                    <th>Urgência</th>
-                    <th>Dias até Vencimento</th>
-                    <th>Dias até Conclusão</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+      <label for="searchDescricao">Descrição:</label>
+      <input type="text" id="searchDescricao" onkeyup="updateTable()" placeholder="Pesquisar...">
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
-    <script src="script.js"></script>
+    <div class="main-content">
+      <form id="taskForm">
+        <label for="natureza">Natureza:</label>
+        <select id="natureza" name="natureza">
+          <option value="tarefa">Tarefa</option>
+          <option value="rotina">Rotina</option>
+        </select>
+
+        <label for="descricao">Descrição:</label>
+        <input type="text" id="descricao" name="descricao">
+
+        <label for="dataEntrega">Data de Entrega:</label>
+        <input type="date" id="dataEntrega" name="dataEntrega">
+
+        <label for="status">Status:</label>
+        <select id="status" name="status">
+          <option value="pendente">Pendente</option>
+          <option value="andamento">Em Andamento</option>
+          <option value="concluida">Concluída</option>
+        </select>
+
+        <label for="urgencia">Urgência:</label>
+        <select id="urgencia" name="urgencia">
+          <option value="baixa">Baixa</option>
+          <option value="media">Média</option>
+          <option value="alta">Alta</option>
+        </select>
+
+        <button type="button" onclick="adicionarTarefa()"><i class="fa-solid fa-plus"></i> Adicionar</button>
+      </form>
+
+      <div class="graphs">
+        <h3><i class="fa-solid fa-chart-pie"></i> Gráficos</h3>
+        <div class="charts">
+          <div class="chart-container">
+            <canvas id="barChart"></canvas>
+          </div>
+          <div class="chart-container">
+            <canvas id="pieChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3><i class="fa-solid fa-table"></i> Lista de Tarefas</h3>
+    <button id="exportButton" onclick="exportarParaExcel()"><i class="fa-solid fa-file-excel"></i> Exportar Excel</button>
+    <table id="taskTable">
+      <thead>
+        <tr>
+          <th>Natureza</th>
+          <th>Descrição</th>
+          <th>Data Criação</th>
+          <th>Data Entrega</th>
+          <th>Status</th>
+          <th>Urgência</th>
+          <th>Dias p/ Vencimento</th>
+          <th>Dias p/ Conclusão</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
